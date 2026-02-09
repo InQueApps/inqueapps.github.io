@@ -85,19 +85,22 @@ class AppFetcher {
                 name: 'Universal Media Converter',
                 description: 'Convert and transform media files between different formats with ease and high quality.',
                 icon: 'fas fa-exchange-alt',
-                category: 'Media & Tools'
+                category: 'Media & Tools',
+                detailsUrl: 'https://inqueapps.github.io/umc/'
             },
             {
                 name: 'Tech Prep',
                 description: 'Comprehensive preparation app for technology interviews and technical assessments.',
                 icon: 'fas fa-laptop-code',
-                category: 'Education & Learning'
+                category: 'Education & Learning',
+                detailsUrl: 'https://inqueapps.github.io/tp/'
             },
             {
                 name: 'Rate My Fit',
                 description: 'Rate and review fashion outfits, get style recommendations and share your looks.',
                 icon: 'fas fa-tshirt',
-                category: 'Lifestyle & Fashion'
+                category: 'Lifestyle & Fashion',
+                detailsUrl: 'https://inqueapps.github.io/rmf/'
             }
         ];
     }
@@ -141,6 +144,10 @@ class AppFetcher {
     }
 
     createAppCard(app) {
+        const learnMoreHref = (app.detailsUrl || (app.name === 'Universal Media Converter' ? 'https://inqueapps.github.io/umc/' : app.name === 'Tech Prep' ? 'https://inqueapps.github.io/tp/' : app.name === 'Rate My Fit' ? 'https://inqueapps.github.io/rmf/' : null)) || '#';
+        const learnMoreLink = learnMoreHref === '#'
+            ? `<a href="#" class="btn-details" onclick="showAppDetails('${app.name.replace(/'/g, "\\'")}'); return false;">Learn More</a>`
+            : `<a href="${learnMoreHref}" class="btn-details">Learn More</a>`;
         return `
             <div class="app-card">
                 <div class="app-icon">
@@ -156,9 +163,7 @@ class AppFetcher {
                         <i class="fab fa-google-play"></i>
                         View on Play Store
                     </a>
-                    <a href="#" class="btn-details" onclick="showAppDetails('${app.name}')">
-                        Learn More
-                    </a>
+                    ${learnMoreLink}
                 </div>
             </div>
         `;
