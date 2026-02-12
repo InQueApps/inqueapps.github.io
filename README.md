@@ -33,6 +33,29 @@ Based on the Google Play Store developer page, the following apps are currently 
 2. Open `index.html` in your web browser
 3. The website should load with all features working
 
+### Local Hosting (Recommended for testing)
+
+Run a local web server from the project root:
+
+```bash
+python serve_local.py
+```
+
+Then open:
+
+- `http://localhost:8000/` (main site)
+- `http://localhost:8000/pai/` (PRISM AI)
+- `http://localhost:8000/rmf/` (Rate My Fit)
+- `http://localhost:8000/tp/` (Tech Prep)
+- `http://localhost:8000/umc/` (Universal Media Converter)
+
+Optional:
+
+```bash
+python serve_local.py --open
+python serve_local.py --port 5500
+```
+
 ### File Structure
 
 ```
