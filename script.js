@@ -104,11 +104,11 @@ class AppFetcher {
         this.knownApps = [
             {
                 name: 'PRISM AI',
-                description: 'Formerly Vision Tech AI. Smart visual tools for fast AI-assisted image workflows.',
+                description: 'Turn your camera into a superpower. AI-powered visual modes: night vision, depth maps, text translation, and more.',
                 iconPath: 'pai/icon.png',
                 category: 'AI & Technology',
                 detailsUrl: './pai/',
-                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+                playUrl: 'https://play.google.com/store/apps/details?id=ab.inque.prismai'
             },
             {
                 name: 'Universal Media Converter',
