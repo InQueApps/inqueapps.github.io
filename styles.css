@@ -52,6 +52,11 @@ body {
     height: 70px;
 }
 
+.nav-logo-img {
+    height: 42px;
+    object-fit: contain;
+}
+
 .nav-logo h2 {
     color: #2563eb;
     font-weight: 700;

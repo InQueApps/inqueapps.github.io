@@ -133,6 +133,14 @@ class AppFetcher {
                 category: 'Lifestyle & Fashion',
                 detailsUrl: './rmf/',
                 playUrl: 'https://play.google.com/store/apps/details?id=ru.daded.ratemyfit'
+            },
+            {
+                name: 'Transling',
+                description: 'Live translation for text, images, and audio — all in one lightweight tool.',
+                iconPath: 'tng/icon.png',
+                category: 'Productivity & Translation',
+                detailsUrl: './tng/',
+                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
             }
         ];
     }
