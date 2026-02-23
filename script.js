@@ -149,6 +149,14 @@ class AppFetcher {
                 category: 'Sports & Fitness',
                 detailsUrl: './sb/',
                 playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+            },
+            {
+                name: 'Pendular',
+                description: 'Swing on a pendulum through physics-based levels — time your launch and soar.',
+                iconPath: 'plr/icon.png',
+                category: 'Games',
+                detailsUrl: './plr/',
+                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
             }
         ];
     }
