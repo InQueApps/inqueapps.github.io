@@ -141,6 +141,14 @@ class AppFetcher {
                 category: 'Productivity & Translation',
                 detailsUrl: './tng/',
                 playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+            },
+            {
+                name: 'Ski Bum',
+                description: 'Track every ski run with GPS — save routes, speed, elevation, and distance.',
+                iconPath: 'sb/icon.png',
+                category: 'Sports & Fitness',
+                detailsUrl: './sb/',
+                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
             }
         ];
     }
