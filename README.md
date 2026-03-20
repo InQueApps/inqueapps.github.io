@@ -15,8 +15,8 @@ A modern, responsive developer website for InQueApps that showcases mobile appli
 
 Based on the Google Play Store developer page, the following apps are currently displayed:
 
-1. **Vision Tech AI** - Advanced AI-powered vision technology app
-2. **Universal Media Converter** - Convert and transform media files
+1. **PRISM AI** - AI-powered camera vision app
+2. **AnyConvert** - Convert and transform media files (formerly Universal Media Converter)
 3. **Tech Prep** - Comprehensive preparation app for technology interviews
 4. **Rate My Fit** - Rate and review fashion outfits
 
@@ -47,7 +47,7 @@ Then open:
 - `http://localhost:8000/pai/` (PRISM AI)
 - `http://localhost:8000/rmf/` (Rate My Fit)
 - `http://localhost:8000/tp/` (Tech Prep)
-- `http://localhost:8000/umc/` (Universal Media Converter)
+- `http://localhost:8000/umc/` (AnyConvert)
 
 Optional:
 

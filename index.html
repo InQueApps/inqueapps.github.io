@@ -6,7 +6,7 @@
     <title>InQueApps - Mobile App Development</title>
     <meta name="description" content="InQueApps - Professional mobile app development company creating innovative apps for Android and iOS platforms.">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -64,15 +64,34 @@
 
     <!-- Apps Section -->
     <section id="apps" class="apps-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Applications</h2>
-                <p>Discover our collection of innovative mobile applications available on Google Play Store</p>
+        <div class="apps-section-bg" aria-hidden="true"></div>
+        <div class="container apps-section-inner">
+            <div class="section-header apps-section-header">
+                <p class="section-eyebrow"><span class="eyebrow-prompt" aria-hidden="true">›</span> catalog / google play</p>
+                <h2>Shipped products</h2>
+                <p class="section-lead">Android apps we build and maintain—on-device processing where it fits, Play Store as the release channel.</p>
+            </div>
+
+            <div class="apps-catalog-bar" role="status" aria-live="polite">
+                <div class="catalog-stat">
+                    <span class="catalog-label">channel</span>
+                    <span class="catalog-value">PLAY_STORE</span>
+                </div>
+                <div class="catalog-stat">
+                    <span class="catalog-label">artifacts</span>
+                    <span class="catalog-value" id="apps-count">—</span>
+                </div>
+                <div class="catalog-stat">
+                    <span class="catalog-label">platform</span>
+                    <span class="catalog-value">Android</span>
+                </div>
             </div>
             
-            <div class="loading-container" id="loading">
-                <div class="loading-spinner"></div>
-                <p>Loading apps...</p>
+            <div class="loading-container loading-tech" id="loading">
+                <div class="loading-terminal" aria-busy="true">
+                    <div class="loading-line"><span class="loading-prompt">$</span> <span>sync catalog — play.google.com …</span></div>
+                    <div class="loading-bar" aria-hidden="true"><span class="loading-bar-fill"></span></div>
+                </div>
             </div>
 
             <div class="apps-grid" id="apps-grid">

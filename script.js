@@ -82,13 +82,35 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    const elementsToAnimate = document.querySelectorAll('.feature, .app-card, .contact-item, .section-header');
+    const elementsToAnimate = document.querySelectorAll(
+        '.feature, .app-card, .contact-item, .section-header, .apps-catalog-bar'
+    );
     elementsToAnimate.forEach(el => {
         el.classList.add('fade-in');
         observer.observe(el);
     });
+
+    const appsGrid = document.getElementById('apps-grid');
+    if (appsGrid) {
+        appsGrid.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return;
+            const card = e.target.closest('.app-card');
+            if (!card) return;
+            card.classList.remove('app-card--pulse');
+            void card.offsetWidth;
+            card.classList.add('app-card--pulse');
+        });
+    }
 });
 
 // App fetching functionality
@@ -107,14 +129,18 @@ class AppFetcher {
                 description: 'Formerly Vision Tech AI. Smart visual tools for fast AI-assisted image workflows.',
                 iconPath: 'pai/icon.png',
                 category: 'AI & Technology',
+                tags: ['On-device', 'Camera', 'ML pipeline'],
+                accent: '#818cf8',
                 detailsUrl: './pai/',
-                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+                playUrl: 'https://play.google.com/store/apps/details?id=ab.inque.prismai'
             },
             {
-                name: 'Universal Media Converter',
+                name: 'AnyConvert',
                 description: 'Convert video, audio, images, and documents in one simple, reliable app.',
                 iconPath: 'umc/icon.png',
                 category: 'Media & Tools',
+                tags: ['Local-first', 'FFmpeg', 'No upload'],
+                accent: '#0891b2',
                 detailsUrl: './umc/',
                 playUrl: 'https://play.google.com/store/apps/details?id=ab.inque.converter'
             },
@@ -123,6 +149,8 @@ class AppFetcher {
                 description: 'Practice coding and interview questions with focused prep for tech roles.',
                 iconPath: 'tp/main_icon.png',
                 category: 'Education & Learning',
+                tags: ['DSA', 'Interview', 'Offline'],
+                accent: '#34d399',
                 detailsUrl: './tp/',
                 playUrl: 'https://play.google.com/store/apps/details?id=com.InQueApps.TechPrep'
             },
@@ -131,32 +159,40 @@ class AppFetcher {
                 description: 'Share outfits, get ratings, and discover fresh style ideas from the community.',
                 iconPath: 'rmf/icon.png',
                 category: 'Lifestyle & Fashion',
+                tags: ['Social', 'Camera', 'UGC'],
+                accent: '#f472b6',
                 detailsUrl: './rmf/',
                 playUrl: 'https://play.google.com/store/apps/details?id=ru.daded.ratemyfit'
             },
             {
-                name: 'Transling',
+                name: 'Transla',
                 description: 'Live translation for text, images, and audio — all in one lightweight tool.',
                 iconPath: 'tng/icon.png',
                 category: 'Productivity & Translation',
+                tags: ['OCR', 'Speech', 'ML Kit'],
+                accent: '#38bdf8',
                 detailsUrl: './tng/',
-                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+                playUrl: 'https://play.google.com/store/apps/details?id=com.inque.transling'
             },
             {
-                name: 'Ski Bum',
+                name: 'SkiSense',
                 description: 'Track every ski run with GPS — save routes, speed, elevation, and distance.',
                 iconPath: 'sb/icon.png',
                 category: 'Sports & Fitness',
+                tags: ['GPS', 'Sensors', 'Maps'],
+                accent: '#22d3ee',
                 detailsUrl: './sb/',
-                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+                playUrl: 'https://play.google.com/store/apps/details?id=ab.inque.skibum'
             },
             {
                 name: 'Pendular',
                 description: 'Swing on a pendulum through physics-based levels — time your launch and soar.',
                 iconPath: 'plr/icon.png',
                 category: 'Games',
+                tags: ['Physics', '2D', 'Arcade'],
+                accent: '#fbbf24',
                 detailsUrl: './plr/',
-                playUrl: 'https://play.google.com/store/apps/developer?id=inQue+Apps'
+                playUrl: 'https://play.google.com/store/apps/details?id=com.inQueApps.Pendular'
             }
         ];
     }
@@ -187,6 +223,11 @@ class AppFetcher {
             return;
         }
 
+        const countEl = document.getElementById('apps-count');
+        if (countEl) {
+            countEl.textContent = String(apps.length).padStart(2, '0');
+        }
+
         const appsHTML = apps.map(app => this.createAppCard(app)).join('');
         this.appsGrid.innerHTML = appsHTML;
         
@@ -200,32 +241,43 @@ class AppFetcher {
     }
 
     createAppCard(app) {
-        const learnMoreHref = (app.detailsUrl || (app.name === 'Universal Media Converter' ? './umc/' : app.name === 'Tech Prep' ? './tp/' : app.name === 'Rate My Fit' ? './rmf/' : app.name === 'PRISM AI' ? './pai/' : null)) || '#';
+        const learnMoreHref = (app.detailsUrl || (app.name === 'AnyConvert' ? './umc/' : app.name === 'Tech Prep' ? './tp/' : app.name === 'Rate My Fit' ? './rmf/' : app.name === 'PRISM AI' ? './pai/' : null)) || '#';
         const playUrl = app.playUrl || this.playStoreUrl;
+        const accentStyle = app.accent ? ` style="--card-accent: ${escapeHtml(app.accent)}"` : '';
         const appIcon = app.iconPath
-            ? `<img src="${app.iconPath}" alt="${app.name} icon" loading="lazy">`
+            ? `<img src="${escapeHtml(app.iconPath)}" alt="${escapeHtml(app.name)} icon" loading="lazy">`
             : `<i class="${app.icon || 'fas fa-mobile-alt'}"></i>`;
+        const tags = (app.tags || [])
+            .map((t) => `<span class="app-tag">${escapeHtml(t)}</span>`)
+            .join('');
         const learnMoreLink = learnMoreHref === '#'
-            ? `<a href="#" class="btn-details" onclick="showAppDetails('${app.name.replace(/'/g, "\\'")}'); return false;"><span>Learn More</span><i class="fas fa-arrow-right"></i></a>`
-            : `<a href="${learnMoreHref}" class="btn-details"><span>Learn More</span><i class="fas fa-arrow-right"></i></a>`;
+            ? `<a href="#" class="btn-details" onclick="showAppDetails('${app.name.replace(/'/g, "\\'")}'); return false;"><span>Details</span><i class="fas fa-arrow-right"></i></a>`
+            : `<a href="${learnMoreHref}" class="btn-details"><span>Details</span><i class="fas fa-arrow-right"></i></a>`;
         return `
-            <div class="app-card">
-                <div class="app-icon">
-                    ${appIcon}
-                </div>
-                <div class="app-info">
-                    <h3>${app.name}</h3>
-                    <p>${app.description}</p>
-                    <small class="app-category">${app.category}</small>
+            <article class="app-card"${accentStyle}>
+                <div class="app-card-body">
+                    <div class="app-card-header">
+                        <div class="app-icon">
+                            ${appIcon}
+                        </div>
+                        <div class="app-card-headline">
+                            <h3 class="app-name">${escapeHtml(app.name)}</h3>
+                            <div class="app-tags">${tags}</div>
+                        </div>
+                    </div>
+                    <p class="app-description">${escapeHtml(app.description)}</p>
+                    <div class="app-card-footer">
+                        <span class="app-category">${escapeHtml(app.category)}</span>
+                    </div>
                 </div>
                 <div class="app-actions">
-                    <a href="${playUrl}" target="_blank" rel="noopener" class="btn-play">
+                    <a href="${escapeHtml(playUrl)}" target="_blank" rel="noopener" class="btn-play">
                         <i class="fab fa-google-play"></i>
-                        <span>View on Play</span>
+                        <span>Play Store</span>
                     </a>
                     ${learnMoreLink}
                 </div>
-            </div>
+            </article>
         `;
     }
 
@@ -279,18 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Add click effect to app cards
-    const appCards = document.querySelectorAll('.app-card');
-    appCards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            if (!e.target.closest('a')) {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-8px)';
-                }, 150);
-            }
-        });
-    });
+    // App card interactions: delegated from #apps-grid (see earlier listener)
 
     // Cleanup: removed parallax + typing effects for smoother layout.
 });
