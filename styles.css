@@ -487,6 +487,7 @@ body {
     height: 120px;
     background: radial-gradient(circle at 100% 0%, var(--tech-accent-dim), transparent 70%);
     pointer-events: none;
+    z-index: 0;
 }
 
 .app-card:hover {
@@ -1140,4 +1141,85 @@ html {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* App detail pages — dark mode uses same tokens as the main site */
+body.dark-mode .app-page .headline {
+    background: var(--card-bg);
+    border-color: var(--border-soft);
+    box-shadow: 0 12px 35px rgba(2, 6, 23, 0.45);
+}
+
+body.dark-mode .app-page .headline h1,
+body.dark-mode .app-page .section h2 {
+    color: var(--text-main);
+}
+
+body.dark-mode .app-page .headline p,
+body.dark-mode .app-page .bullets li {
+    color: var(--text-muted);
+}
+
+body.dark-mode .app-page .section {
+    background: var(--card-bg);
+    border-color: var(--border-soft);
+    box-shadow: 0 10px 26px rgba(2, 6, 23, 0.35);
+}
+
+body.dark-mode .app-page .shots img {
+    border-color: var(--border-soft);
+}
+
+body.dark-mode .app-page .meta {
+    color: var(--text-muted);
+}
+
+body.dark-mode .app-page .meta a {
+    color: #93c5fd;
+}
+
+body.dark-mode .app-page .btn-ghost {
+    color: var(--text-main);
+    background: rgba(15, 23, 42, 0.55);
+    border-color: var(--border-soft);
+}
+
+body.dark-mode .app-page .btn-ghost:hover {
+    border-color: #94a3b8;
+}
+
+/* Homepage app cards: promo banner (same framing as detail-page shots) */
+.app-card-banner {
+    position: relative;
+    z-index: 2;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(145deg, #f1f5f9, #e8eef5);
+    border-bottom: 1px solid var(--border-soft);
+    text-decoration: none;
+    color: inherit;
+}
+
+.app-card-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.38s ease, filter 0.38s ease;
+}
+
+.app-card:hover .app-card-banner img {
+    transform: scale(1.04);
+    filter: brightness(1.04);
+}
+
+.app-card-banner:focus-visible {
+    outline: 2px solid var(--tech-accent);
+    outline-offset: -2px;
+}
+
+body.dark-mode .app-card-banner {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
 } 

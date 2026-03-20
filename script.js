@@ -1,72 +1,17 @@
-// Mobile Navigation Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-const themeToggle = document.getElementById('theme-toggle');
-const navbar = document.querySelector('.navbar');
-const THEME_STORAGE_KEY = 'inqueapps-theme';
-
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-}
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        if (hamburger && navMenu) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
+// Smooth scrolling for same-page # links (main site only)
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (e) {
+            const id = this.getAttribute('href');
+            if (!id || id === '#') return;
+            const target = document.querySelector(id);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     });
 });
-
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Navbar background on scroll
-window.addEventListener('scroll', () => {
-    if (navbar) {
-        navbar.classList.toggle('scrolled', window.scrollY > 30);
-    }
-});
-
-function setTheme(theme) {
-    const isDark = theme === 'dark';
-    document.body.classList.toggle('dark-mode', isDark);
-    if (themeToggle) {
-        themeToggle.innerHTML = isDark
-            ? '<i class="fas fa-sun"></i>'
-            : '<i class="fas fa-moon"></i>';
-    }
-}
-
-function initializeTheme() {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-    setTheme(initialTheme);
-}
-
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        const nextTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-        setTheme(nextTheme);
-        localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-    });
-}
 
 // Intersection Observer for fade-in animations
 const observerOptions = {
@@ -88,6 +33,13 @@ function escapeHtml(text) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
+}
+
+/** Promo banner path next to app icons, e.g. ./pai/ → pai/banner.png */
+function appBannerPathFromDetails(detailsUrl) {
+    if (!detailsUrl || detailsUrl === '#') return null;
+    const m = String(detailsUrl).match(/^\.\/([^/]+)\/?$/);
+    return m ? `${m[1]}/banner.png` : null;
 }
 
 // Observe elements for animation
@@ -253,8 +205,20 @@ class AppFetcher {
         const learnMoreLink = learnMoreHref === '#'
             ? `<a href="#" class="btn-details" onclick="showAppDetails('${app.name.replace(/'/g, "\\'")}'); return false;"><span>Details</span><i class="fas fa-arrow-right"></i></a>`
             : `<a href="${learnMoreHref}" class="btn-details"><span>Details</span><i class="fas fa-arrow-right"></i></a>`;
+        const bannerPath = app.bannerPath || appBannerPathFromDetails(app.detailsUrl);
+        const bannerAlt = `${app.name} — Play Store banner`;
+        const bannerInner = bannerPath
+            ? `<img src="${escapeHtml(bannerPath)}" alt="${escapeHtml(bannerAlt)}" loading="lazy">`
+            : '';
+        const bannerBlock =
+            bannerPath && bannerInner
+                ? learnMoreHref !== '#'
+                    ? `<a href="${learnMoreHref}" class="app-card-banner" aria-label="${escapeHtml(app.name)}, view details">${bannerInner}</a>`
+                    : `<div class="app-card-banner">${bannerInner}</div>`
+                : '';
         return `
             <article class="app-card"${accentStyle}>
+                ${bannerBlock}
                 <div class="app-card-body">
                     <div class="app-card-header">
                         <div class="app-icon">
@@ -314,11 +278,6 @@ function showAppDetails(appName) {
 
 // Add some interactive features
 document.addEventListener('DOMContentLoaded', () => {
-    initializeTheme();
-    if (navbar) {
-        navbar.classList.toggle('scrolled', window.scrollY > 30);
-    }
-
     // Add hover effects to buttons
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
